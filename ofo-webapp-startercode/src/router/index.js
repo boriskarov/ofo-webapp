@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
+import UploadPage from "@/views/UploadPage.vue";
+import PanelPage from "@/views/PanelPage.vue";
 
 const routes = [
   {
@@ -7,6 +9,14 @@ const routes = [
     name: 'home',
     component: HomePage
   },
+  {
+    path: '/upload',
+    component: UploadPage
+  },
+  {
+    path: '/panel',
+    component: PanelPage
+  }
 ]
 
 const router = createRouter({
