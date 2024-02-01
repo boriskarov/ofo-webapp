@@ -17,6 +17,8 @@ export default {
   <v-navigation-drawer app v-model="drawer" class="indigo" color="#009bd6" >
     <v-list-item title="File Upload" link to="/upload"></v-list-item>
     <v-list-item title="Overview Panel" link to="/panel"></v-list-item>
+    <v-list-item title="Open Ticket" link to="/newticket"></v-list-item>
+
   </v-navigation-drawer>
 </template>
 
