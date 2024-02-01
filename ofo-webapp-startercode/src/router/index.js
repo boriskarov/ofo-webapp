@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import UploadPage from "@/views/UploadPage.vue";
 import PanelPage from "@/views/PanelPage.vue";
+import OpenTicket from "@/views/OpenTicket.vue";
 
 const routes = [
   {
@@ -14,6 +15,10 @@ const routes = [
   {
     path: '/panel',
     component: PanelPage
+  },
+  {
+    path: '/newticket',
+    component: OpenTicket
   }
 ]
 
