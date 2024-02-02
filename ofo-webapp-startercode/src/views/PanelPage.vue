@@ -11,6 +11,9 @@ export default{
     },
     removeTask(task){
       this.$store.dispatch('tasks/removeTask', task);
+    },
+    editTask(task){
+      this.$router.push(`/tasks/${task.id}/edit`);
     }
   }
 }
@@ -18,12 +21,12 @@ export default{
 
 <template>
 <div >
-  <v-card-title>Pending tasks</v-card-title>
+  <v-card-title class="ma-5 flex text-center">Pending tasks</v-card-title>
   <v-container>
     <v-card class="ma-1 pa-4 bg-blue-grey-lighten-5" v-for="task in tasks" :key="task.id">
       <v-layout :class="`pa-4 ${task.status}`">
         <v-row>
-          <v-col cols="4">
+          <v-col cols="2">
             <div class="text-caption">
               {{ task.name }}
             </div>
@@ -42,12 +45,15 @@ export default{
               {{ task.status }}
             </v-chip>
           </v-col>
+          <v-col cols="2">
+            <v-btn @click="editTask(task)">Edit</v-btn>
+          </v-col>
           <v-col cols="2" v-if="task.status === 'inprogress'">
             <v-btn class="bg-green-accent-4 text-white" @click="markCompleted(task)">Done</v-btn>
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="2">
-            <v-btn @click="removeTask(task)">Remove</v-btn>
+            <v-btn class="bg-red" @click="removeTask(task)">Remove</v-btn>
           </v-col>
         </v-row>
       </v-layout>
