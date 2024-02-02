@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import UploadPage from "@/views/UploadPage.vue";
 import PanelPage from "@/views/PanelPage.vue";
 import OpenTicket from "@/views/OpenTicket.vue";
+import EditTicket from "@/views/EditTicket.vue";
 
 const routes = [
   {
@@ -13,12 +14,17 @@ const routes = [
     component: UploadPage
   },
   {
-    path: '/panel',
+    path: '/tasks',
     component: PanelPage
   },
   {
     path: '/newticket',
     component: OpenTicket
+  },
+  {
+    path: '/tasks/:id/edit',
+    component: EditTicket,
+    props: true
   }
 ]
 
