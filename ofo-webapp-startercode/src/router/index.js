@@ -7,7 +7,7 @@ import EditTicket from "@/views/EditTicket.vue";
 const routes = [
   {
     path: '/',
-    redirect: '/panel',
+    redirect: '/tasks',
   },
   {
     path: '/upload',
