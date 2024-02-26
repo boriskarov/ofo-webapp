@@ -6,5 +6,16 @@ module.exports = defineConfig({
     vuetify: {
 			// https://github.com/vuetifyjs/vuetify-loader/tree/next/packages/vuetify-loader
 		}
-  }
+  },
+
+    devServer: {
+        port: 3000,
+        proxy: {
+            '/ticket': {
+                target: 'http://localhost:8080',
+                ws: true,
+                changeOrigin: true,
+            }
+        }
+    }
 })
