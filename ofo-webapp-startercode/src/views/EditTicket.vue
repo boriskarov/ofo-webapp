@@ -6,25 +6,37 @@ export default {
     return{
       dialog: false,
       dialogEmpty: false,
-      selectedTask: null
-    }
-  },
-  computed: {
-    tasks(){
-      return this.$store.getters['tasks/tasks'];
+      ticket: {
+        subject: '',
+        body: '',
+        createdAt: null
+      }
     }
   },
   methods: {
-    updateTask(task){
-      if(!task.name || !task.description || !task.due){
+    updateTask(ticket){
+      const task = {
+        id: this.id,
+        subject: ticket.subject,
+        body: ticket.body,
+        status: 'OPEN',
+        createdAt: ticket.createdAt,
+        updatedAt: new Date()
+      };
+      if(!task.subject || !task.body || !task.createdAt){
         this.dialogEmpty = true;
       } else {
         this.dialog = true;
       }
+      this.$store.dispatch('tasks/updateTask', task);
+    },
+    async getTicket(){
+      const response = await fetch(`/ticket/${this.id}`);
+      this.ticket = await response.json();
     }
   },
   created() {
-    this.selectedTask=this.tasks.find(task=>String(task.id) === this.id);
+    this.getTicket();
   }
 }
 </script>
@@ -34,10 +46,10 @@ export default {
     <v-card  class="card">
       <v-card-title>Edit Ticket</v-card-title>
       <v-card-text>
-        <v-form @submit.prevent="updateTask(selectedTask)" id="edit-ticket">
-          <v-text-field label="Title" v-model="selectedTask.name"></v-text-field>
-          <v-text-field label="Description" v-model="selectedTask.description"></v-text-field>
-          <v-text-field label="Due date" v-model="selectedTask.due"></v-text-field>
+        <v-form @submit.prevent="updateTask(ticket)" id="edit-ticket">
+          <v-text-field label="Title" v-model="ticket.subject"></v-text-field>
+          <v-text-field label="Description" v-model="ticket.body"></v-text-field>
+          <v-text-field label="Due date" v-model="ticket.createdAt"></v-text-field>
         </v-form>
       </v-card-text>
       <v-card-actions>
