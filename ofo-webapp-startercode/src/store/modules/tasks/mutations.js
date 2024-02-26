@@ -3,7 +3,9 @@ export default {
         state.tasks = payload;
     },
     markCompleted(state,payload){
-        state.tasks.find(task=>task.id === payload.id).status = 'completed';
+        const task = state.tasks.find(task=>task.id === payload.id);
+        const index = state.tasks.indexOf(task);
+        state.tasks[index].ticketStatus = 'RESOLVED';
     },
     removeTask(state,payload){
         const index = state.tasks.indexOf(state.tasks.find(task=>task.id===payload.id));
@@ -11,5 +13,10 @@ export default {
     },
     createTask(state,payload){
         state.tasks.push(payload);
+    },
+    updateTask(state,payload){
+        const task = state.tasks.find(task=>task.id === payload.id);
+        const index = state.tasks.indexOf(task);
+        state.tasks[index] = payload;
     }
 }
