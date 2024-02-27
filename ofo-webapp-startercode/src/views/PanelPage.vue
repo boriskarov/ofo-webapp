@@ -41,7 +41,7 @@ export default{
             </div>
           </v-col>
           <v-col cols="2">
-            <div class="text-caption">Due date</div>
+            <div class="text-caption">Opening date</div>
             <div>
               {{ task.createdAt }}
             </div>

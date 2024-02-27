@@ -70,6 +70,19 @@ export default {
         if(!response.ok){
             // error
         }
-        context.commit('setTasks', responseData);
+        const editedData = [];
+        for(const task of responseData){
+            const editedTask = {
+                id: task.id,
+                subject: task.subject,
+                body: task.body,
+                ticketStatus: task.ticketStatus,
+                createdAt: task.createdAt.split('T')[0],
+                updatedAt: task.createdAt.split('T')[0]
+            };
+            editedData.push(editedTask);
+        }
+
+        context.commit('setTasks', editedData);
     }
 }

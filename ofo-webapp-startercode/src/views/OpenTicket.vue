@@ -12,21 +12,19 @@ export default {
   },
   methods:{
     createTicket(){
-      if(!this.title || !this.description || !this.due){
+      if(!this.title || !this.description){
         this.dialogEmpty = true;
       } else {
         const task = {
           id: new Date().toISOString(),
           name: this.title,
           description: this.description,
-          due: this.due,
-          status: 'inprogress'
+          status: 'OPEN'
         }
         this.$store.dispatch('tasks/createTask', task);
         this.dialog = true;
         this.title = '';
         this.description = '';
-        this.due = '';
       }
     }
   }
@@ -43,7 +41,6 @@ export default {
         <v-form @submit.prevent="createTicket" id="new-ticket">
           <v-text-field label="Title" v-model="title"></v-text-field>
           <v-text-field label="Description" v-model="description"></v-text-field>
-          <v-text-field label="Due date" v-model="due"></v-text-field>
         </v-form>
       </v-card-text>
       <v-card-actions>

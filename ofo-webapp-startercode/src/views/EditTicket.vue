@@ -23,7 +23,7 @@ export default {
         createdAt: ticket.createdAt,
         updatedAt: new Date()
       };
-      if(!task.subject || !task.body || !task.createdAt){
+      if(!task.subject || !task.body){
         this.dialogEmpty = true;
       } else {
         this.dialog = true;
@@ -49,7 +49,6 @@ export default {
         <v-form @submit.prevent="updateTask(ticket)" id="edit-ticket">
           <v-text-field label="Title" v-model="ticket.subject"></v-text-field>
           <v-text-field label="Description" v-model="ticket.body"></v-text-field>
-          <v-text-field label="Due date" v-model="ticket.createdAt"></v-text-field>
         </v-form>
       </v-card-text>
       <v-card-actions>
