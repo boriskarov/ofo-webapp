@@ -69,20 +69,21 @@ export default {
         const responseData = await response.json();
         if(!response.ok){
             // error
-        }
-        const editedData = [];
-        for(const task of responseData){
-            const editedTask = {
-                id: task.id,
-                subject: task.subject,
-                body: task.body,
-                ticketStatus: task.ticketStatus,
-                createdAt: task.createdAt.split('T')[0],
-                updatedAt: task.createdAt.split('T')[0]
-            };
-            editedData.push(editedTask);
-        }
+        }else {
+            const editedData = [];
+            for (const task of responseData) {
+                const editedTask = {
+                    id: task.id,
+                    subject: task.subject,
+                    body: task.body,
+                    ticketStatus: task.ticketStatus,
+                    createdAt: task.createdAt.split('T')[0],
+                    updatedAt: task.createdAt.split('T')[0]
+                };
+                editedData.push(editedTask);
+            }
 
-        context.commit('setTasks', editedData);
+            context.commit('setTasks', editedData);
+        }
     }
 }

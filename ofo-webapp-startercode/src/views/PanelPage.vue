@@ -17,6 +17,12 @@ export default{
     },
     loadTasks(){
       this.$store.dispatch('tasks/loadTasks');
+    },
+    logTask(task){
+      this.$store.dispatch('issues/addIssue', task);
+    },
+    sendMail(){
+      //
     }
   },
   mounted() {
@@ -52,10 +58,14 @@ export default{
             </v-chip>
           </v-col>
           <v-col cols="2">
-            <v-btn @click="editTask(task)">Edit</v-btn>
+            <v-btn @click="editTask(task)" v-if="task.ticketStatus === 'OPEN'">Edit</v-btn>
+            <v-btn @click="sendMail(task)" v-else-if="task.ticketStatus === 'RESOLVED'">Send mail</v-btn>
           </v-col>
           <v-col cols="2" v-if="task.ticketStatus === 'OPEN'">
             <v-btn class="bg-green-accent-4 text-white" @click="markCompleted(task)">Done</v-btn>
+          </v-col>
+          <v-col cols="2" v-else-if="task.ticketStatus === 'RESOLVED'">
+            <v-btn class="bg-white text-black" @click="logTask(task)">Backlog</v-btn>
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="2">
