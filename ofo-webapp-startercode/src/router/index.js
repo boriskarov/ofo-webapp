@@ -3,6 +3,7 @@ import UploadPage from "@/views/UploadPage.vue";
 import PanelPage from "@/views/PanelPage.vue";
 import OpenTicket from "@/views/OpenTicket.vue";
 import EditTicket from "@/views/EditTicket.vue";
+import BacklogPage from "@/views/BacklogPage.vue";
 
 const routes = [
   {
@@ -25,6 +26,10 @@ const routes = [
     path: '/tasks/:id/edit',
     component: EditTicket,
     props: true
+  },
+  {
+    path: '/log',
+    component: BacklogPage
   }
 ]
 
