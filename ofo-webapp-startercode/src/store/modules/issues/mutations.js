@@ -1,8 +1,8 @@
 export default {
     setIssues(state,payload){
-        state.issues = payload;
+        state.backlog = payload;
     },
     addIssue(state,payload){
-        state.issues.push(payload);
+        state.backlog.push(payload);
     }
 }

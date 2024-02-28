@@ -12,12 +12,11 @@ export default {
             },
             body: JSON.stringify(issue)
             }
-        )
-        const responseData = await response.json();
-        console.log(responseData);
+        );
         if(!response.ok){
             //
+        }else {
+            context.commit('addIssue', issue);
         }
-        context.commit('addIssue', issue);
     }
 }
