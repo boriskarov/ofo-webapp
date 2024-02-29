@@ -4,6 +4,7 @@ import PanelPage from "@/views/PanelPage.vue";
 import OpenTicket from "@/views/OpenTicket.vue";
 import EditTicket from "@/views/EditTicket.vue";
 import BacklogPage from "@/views/BacklogPage.vue";
+import NotFound from "@/views/NotFound.vue";
 
 const routes = [
   {
@@ -30,7 +31,11 @@ const routes = [
   {
     path: '/log',
     component: BacklogPage
-  }
+  },
+  {
+    path: '/:notFound(.*)',
+    component: NotFound,
+  },
 ]
 
 const router = createRouter({
