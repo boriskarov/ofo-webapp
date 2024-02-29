@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import tasksModule from "./modules/tasks/index.js";
-
+import issuesModule from "./modules/issues/index.js";
 export default createStore({
   state: {
   },
@@ -11,6 +11,7 @@ export default createStore({
   actions: {
   },
   modules: {
-    tasks: tasksModule
+    tasks: tasksModule,
+    issues: issuesModule
   }
 })

@@ -14,7 +14,7 @@ export default {
     }
   },
   methods: {
-    updateTask(ticket){
+    async updateTask(ticket){
       const task = {
         id: this.id,
         subject: ticket.subject,
@@ -23,12 +23,17 @@ export default {
         createdAt: ticket.createdAt,
         updatedAt: new Date()
       };
-      if(!task.subject || !task.body || !task.createdAt){
+      if(!task.subject || !task.body){
         this.dialogEmpty = true;
       } else {
-        this.dialog = true;
+        try {
+          await this.$store.dispatch('tasks/updateTask', task);
+          this.dialog = true;
+        }catch(error){
+          this.error = error.message;
+          this.dialogEmpty=true;
+        }
       }
-      this.$store.dispatch('tasks/updateTask', task);
     },
     async getTicket(){
       const response = await fetch(`/ticket/${this.id}`);
@@ -49,7 +54,6 @@ export default {
         <v-form @submit.prevent="updateTask(ticket)" id="edit-ticket">
           <v-text-field label="Title" v-model="ticket.subject"></v-text-field>
           <v-text-field label="Description" v-model="ticket.body"></v-text-field>
-          <v-text-field label="Due date" v-model="ticket.createdAt"></v-text-field>
         </v-form>
       </v-card-text>
       <v-card-actions>
