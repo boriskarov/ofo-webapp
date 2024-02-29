@@ -3,6 +3,7 @@ export default {
   name: "OpenTicket",
   data(){
     return{
+      error: null,
       dialogEmpty: false,
       dialog: false,
       title: '',
@@ -11,7 +12,7 @@ export default {
     }
   },
   methods:{
-    createTicket(){
+    async createTicket(){
       if(!this.title || !this.description){
         this.dialogEmpty = true;
       } else {
@@ -21,8 +22,13 @@ export default {
           description: this.description,
           status: 'OPEN'
         }
-        this.$store.dispatch('tasks/createTask', task);
-        this.dialog = true;
+        try {
+          await this.$store.dispatch('tasks/createTask', task);
+          this.dialog = true;
+        }catch(error){
+          this.error = error.message;
+          this.dialogEmpty = true;
+        }
         this.title = '';
         this.description = '';
       }

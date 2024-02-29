@@ -5,12 +5,26 @@ export default{
       return this.$store.getters['tasks/tasks'];
     }
   },
+  data(){
+    return {
+      error: null,
+      logModal: false,
+      removeModal: false,
+      errorModal: false,
+    }
+  },
   methods:{
     markCompleted(task) {
       this.$store.dispatch('tasks/markCompleted', task);
     },
-    removeTask(task){
-      this.$store.dispatch('tasks/removeTask', task);
+    async removeTask(task){
+      try {
+        await this.$store.dispatch('tasks/removeTask', task);
+        this.removeModal = true;
+      }catch(error){
+        this.error = error.message;
+        this.errorModal = true;
+      }
     },
     editTask(task){
       this.$router.push(`/tasks/${task.id}/edit`);
@@ -18,8 +32,14 @@ export default{
     loadTasks(){
       this.$store.dispatch('tasks/loadTasks');
     },
-    logTask(task){
-      this.$store.dispatch('issues/addIssue', task);
+    async logTask(task){
+      try {
+        await this.$store.dispatch('issues/addIssue', task);
+        this.logModal = true;
+      }catch(error){
+        this.error = error.message;
+        this.errorModal = true;
+      }
     },
     sendMail(){
       //
@@ -61,11 +81,9 @@ export default{
             <v-btn @click="editTask(task)" v-if="task.ticketStatus === 'OPEN'">Edit</v-btn>
             <v-btn @click="sendMail(task)" v-else-if="task.ticketStatus === 'RESOLVED'">Send mail</v-btn>
           </v-col>
-          <v-col cols="2" v-if="task.ticketStatus === 'OPEN'">
-            <v-btn class="bg-green-accent-4 text-white" @click="markCompleted(task)">Done</v-btn>
-          </v-col>
-          <v-col cols="2" v-else-if="task.ticketStatus === 'RESOLVED'">
-            <v-btn class="bg-white text-black" @click="logTask(task)">Backlog</v-btn>
+          <v-col cols="2" >
+            <v-btn class="bg-green-accent-4 text-white" @click="markCompleted(task)" v-if="task.ticketStatus === 'OPEN'">Done</v-btn>
+            <v-btn class="bg-white text-black" @click="logTask(task)" v-else-if="task.ticketStatus === 'RESOLVED'">Backlog</v-btn>
           </v-col>
           <v-spacer></v-spacer>
           <v-col cols="2">
@@ -81,6 +99,36 @@ export default{
       <v-card-text>Please add some tickets</v-card-text>
     </v-card>
   </v-container>
+  <v-dialog width="500" v-model="logModal">
+    <v-card>
+      <v-card-title class="text-green flex text-center">Success</v-card-title>
+      <v-card-text class="flex text-center">You successfully added this issue to the backlog</v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="logModal=!logModal" class="w-5">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <v-dialog width="500" v-model="removeModal">
+    <v-card>
+      <v-card-title class="text-green flex text-center">Success</v-card-title>
+      <v-card-text class="flex text-center">You successfully removed the ticket!</v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="removeModal=!removeModal" class="w-5">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <v-dialog width="500" v-model="errorModal">
+    <v-card>
+      <v-card-title class="text-green flex text-center">Error!</v-card-title>
+      <v-card-text class="flex text-center">{{ error }}</v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="errorModal=!errorModal" class="w-5">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </div>
 </template>
 

@@ -11,7 +11,7 @@ export default {
       headers: [
         {
           title: 'Priority',
-          key: 'priority',
+          key: 'issuePriority',
         },
         {
           title: 'Description',

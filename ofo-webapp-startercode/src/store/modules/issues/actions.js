@@ -2,7 +2,7 @@ export default {
     async addIssue(context, payload){
         const issue = {
             id: payload.id,
-            priority: '',
+            priority: payload.ticketStatus === 'OPEN' ? 'HIGH':'MEDIUM',
             description: payload.body,
         }
         const response = await fetch('/backlog/create',{
