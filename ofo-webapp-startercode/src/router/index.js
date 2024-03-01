@@ -5,6 +5,7 @@ import OpenTicket from "@/views/OpenTicket.vue";
 import EditTicket from "@/views/EditTicket.vue";
 import BacklogPage from "@/views/BacklogPage.vue";
 import NotFound from "@/views/NotFound.vue";
+import SendMail from "@/views/SendMail.vue";
 
 const routes = [
   {
@@ -26,6 +27,11 @@ const routes = [
   {
     path: '/tasks/:id/edit',
     component: EditTicket,
+    props: true
+  },
+  {
+    path: '/tasks/:id/sendmail',
+    component: SendMail,
     props: true
   },
   {

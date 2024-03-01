@@ -41,8 +41,8 @@ export default{
         this.errorModal = true;
       }
     },
-    sendMail(){
-      //
+    sendMail(task){
+      this.$router.push(`/tasks/${task.id}/sendmail`);
     }
   },
   mounted() {
