@@ -12,10 +12,13 @@ export default {
         const response = await fetch(`/ticket/${payload.id}`,{
             method: 'DELETE'
         })
+        const responseData = await response;
         if(!response.ok){
-            // error
+            const error = new Error(responseData.message || "Unsuccessful!");
+            throw error;
+        }else {
+            context.commit('removeTask', payload);
         }
-        context.commit('removeTask', payload);
     },
     async createTask(context,payload){
         const taskData = {
@@ -33,12 +36,13 @@ export default {
             },
             body: JSON.stringify(taskData)
         });
-
+        const responseData = await response.json();
         if(!response.ok){
-            // error
+            const error = new Error(responseData.message || "Unsuccessful!");
+            throw error;
+        }else {
+            context.commit('createTask', payload);
         }
-
-        context.commit('createTask', payload);
     },
 
     async updateTask(context,payload){
@@ -57,18 +61,21 @@ export default {
             },
             body: JSON.stringify(taskData)
         });
-
+        const responseData = await response;
         if(!response.ok){
-            // error
+            const error = new Error(responseData.error || 'Unsuccessful update!');
+            throw error;
+        }else {
+            context.commit('updateTask', taskData);
         }
-        context.commit('updateTask', taskData);
     },
 
     async loadTasks(context){
         const response = await fetch('/ticket/all');
         const responseData = await response.json();
         if(!response.ok){
-            // error
+            const error = new Error(responseData.message || "There are no tickets!");
+            throw error;
         }else {
             const editedData = [];
             for (const task of responseData) {

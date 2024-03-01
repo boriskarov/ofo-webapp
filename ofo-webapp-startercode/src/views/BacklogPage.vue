@@ -8,6 +8,8 @@ export default {
   },
   data(){
     return {
+      error: null,
+      dialog: false,
       headers: [
         {
           title: 'Priority',
@@ -21,13 +23,17 @@ export default {
     }
   },
   methods: {
-    loadIssues(){
-      this.$store.dispatch('issues/loadBacklog');
+    async loadIssues(){
+      try {
+        await this.$store.dispatch('issues/loadBacklog');
+      }catch(error){
+        this.error = 'No data available!';
+        this.dialog = true;
+      }
     }
   },
   mounted() {
     this.loadIssues();
-    console.log(this.issues);
   }
 }
 </script>
@@ -39,6 +45,16 @@ export default {
   <v-data-table :headers="headers" :items="issues" >
   </v-data-table>
   </v-card>
+  <v-dialog width="500" v-model="dialog">
+    <v-card>
+      <v-card-title>Warning!</v-card-title>
+      <v-card-text>{{this.error}}</v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn @click="dialog=!dialog">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </div>
 </template>
 

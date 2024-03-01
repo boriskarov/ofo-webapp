@@ -13,8 +13,10 @@ export default {
             body: JSON.stringify(issue)
             }
         );
+        const responseData = await response.json();
         if(!response.ok){
-            //
+            const error = new Error(responseData.error || 'Unsuccessful!');
+            throw error;
         }else {
             context.commit('addIssue', issue);
         }
@@ -22,9 +24,9 @@ export default {
     async loadBacklog(context){
         const response = await fetch('/backlog/issues');
         const responseData = await response.json();
-        console.log(responseData);
         if(!response.ok){
-            //
+            const error = new Error(responseData.error || 'No data available!');
+            throw error;
         }else{
             context.commit('setIssues', responseData);
         }
