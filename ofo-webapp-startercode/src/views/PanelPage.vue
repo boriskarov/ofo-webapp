@@ -7,6 +7,7 @@ export default{
   },
   data(){
     return {
+      loadError: null,
       error: null,
       logModal: false,
       removeModal: false,
@@ -29,8 +30,12 @@ export default{
     editTask(task){
       this.$router.push(`/tasks/${task.id}/edit`);
     },
-    loadTasks(){
-      this.$store.dispatch('tasks/loadTasks');
+    async loadTasks(){
+      try {
+        await this.$store.dispatch('tasks/loadTasks');
+      }catch(error){
+        this.loadError = error.message || "No tickets available!";
+      }
     },
     async logTask(task){
       try {
@@ -41,8 +46,8 @@ export default{
         this.errorModal = true;
       }
     },
-    sendMail(){
-      //
+    sendMail(task){
+      this.$router.push(`/tasks/${task.id}/sendmail`);
     }
   },
   mounted() {
@@ -95,7 +100,7 @@ export default{
   </v-container>
   <v-container v-else>
     <v-card class="card">
-      <v-card-title>Tasks not found!</v-card-title>
+      <v-card-title>{{ this.loadError }}</v-card-title>
       <v-card-text>Please add some tickets</v-card-text>
     </v-card>
   </v-container>

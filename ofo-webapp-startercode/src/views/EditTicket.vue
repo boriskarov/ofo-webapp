@@ -4,6 +4,7 @@ export default {
   props: ['id'],
   data(){
     return{
+      error: null,
       dialog: false,
       dialogEmpty: false,
       ticket: {
@@ -30,8 +31,7 @@ export default {
           await this.$store.dispatch('tasks/updateTask', task);
           this.dialog = true;
         }catch(error){
-          this.error = error.message;
-          this.dialogEmpty=true;
+          this.error = error.message || "Unsuccessful update!";
         }
       }
     },

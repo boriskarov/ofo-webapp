@@ -6,6 +6,7 @@ export default {
       error: null,
       dialogEmpty: false,
       dialog: false,
+      dialogError: false,
       title: '',
       description: '',
       due: ''
@@ -27,7 +28,7 @@ export default {
           this.dialog = true;
         }catch(error){
           this.error = error.message;
-          this.dialogEmpty = true;
+          this.dialogError = true;
         }
         this.title = '';
         this.description = '';
@@ -72,6 +73,17 @@ export default {
           <v-spacer>
           </v-spacer>
           <v-btn @click="dialogEmpty=!dialogEmpty" class="w-5">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <v-dialog width="500" v-model="dialogError">
+      <v-card>
+        <v-card-title class="text-red flex text-center">Error!</v-card-title>
+        <v-card-text class="flex text-center">{{ this.error }}</v-card-text>
+        <v-card-actions>
+          <v-spacer>
+          </v-spacer>
+          <v-btn @click="dialogError=!dialogError" class="w-5">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
