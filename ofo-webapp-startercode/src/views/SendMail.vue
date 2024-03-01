@@ -4,8 +4,10 @@ export default {
   props: ['id'],
   data(){
     return {
+      error: null,
       dialog: false,
       dialogEmpty: false,
+      dialogError: false,
       ticket: {
         subject: ''
       },
@@ -18,14 +20,33 @@ export default {
       const response = await fetch(`/ticket/${this.id}`);
       this.ticket = await response.json();
     },
-    sendMail(){
+    async sendMail(){
+      const email = {
+        subject: this.ticket.subject,
+        messageBody: this.messageBody,
+        attachment: this.attachment
+      }
+      console.log(email);
       if(!this.ticket.subject || !this.messageBody || !this.attachment){
         this.dialogEmpty = true;
       }else{
-        console.log(this.ticket.subject);
-        console.log(this.messageBody);
-        console.log(this.attachment);
-        this.dialog = true;
+        // console.log(this.ticket.subject);
+        // console.log(this.messageBody);
+        // console.log(this.attachment);
+          const response = await fetch('/mail/send',{
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(email)
+          })
+          const responseData = await response.json();
+          if(!response.ok){
+            this.error = responseData.message || 'Unsuccessful attempt!';
+            this.dialogError = true;
+          }else {
+            this.dialog = true;
+          }
       }
 
     }
@@ -69,6 +90,17 @@ export default {
         <v-spacer>
         </v-spacer>
         <v-btn @click="dialogEmpty=!dialogEmpty" class="w-5">Close</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <v-dialog width="500" v-model="dialogError">
+    <v-card>
+      <v-card-title class="text-red flex text-center">Error!</v-card-title>
+      <v-card-text class="flex text-center">{{this.error}}</v-card-text>
+      <v-card-actions>
+        <v-spacer>
+        </v-spacer>
+        <v-btn @click="dialogError=!dialogError" class="w-5">Close</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
